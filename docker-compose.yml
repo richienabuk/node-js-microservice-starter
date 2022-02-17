@@ -1,0 +1,37 @@
+version: '3.2'
+
+services:
+  nginx:
+    container_name: ng_nginx
+    build: ./docker/nginx
+    links:
+      - movie
+      - auth
+    volumes:
+      - ./docker/nginx/site.conf:/etc/nginx/conf.d/site.conf
+    ports:
+      - "${APP_PORT:-5000}:80"
+
+  movie:
+    build: ./movie
+    container_name: ng_movie
+    volumes:
+      - "./movie:/src/app"
+    working_dir: "/src/app"
+    ports:
+      - "5000"
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+    command: npm run start
+
+  auth:
+    build: ./auth
+    container_name: ng_auth
+    volumes:
+      - "./auth:/src/app"
+    working_dir: "/src/app"
+    ports:
+      - "3000"
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+    command: npm run start
