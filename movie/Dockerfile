@@ -1,5 +1,7 @@
 FROM node:14.15-alpine
 
+RUN npm i -g nodemon sequelize-cli
+
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
