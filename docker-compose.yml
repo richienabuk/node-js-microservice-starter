@@ -6,7 +6,6 @@ services:
     build: ./docker/nginx
     links:
       - movie
-      - auth
     volumes:
       - ./docker/nginx/site.conf:/etc/nginx/conf.d/site.conf
     ports:
@@ -22,18 +21,6 @@ services:
       - mysqldb
     ports:
       - "5000"
-    environment:
-      JWT_SECRET: ${JWT_SECRET}
-    command: npm run start
-
-  auth:
-    build: ./auth
-    container_name: ng_auth
-    volumes:
-      - "./auth:/src/app"
-    working_dir: "/src/app"
-    ports:
-      - "3000"
     environment:
       JWT_SECRET: ${JWT_SECRET}
     command: npm run start

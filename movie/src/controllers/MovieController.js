@@ -3,6 +3,8 @@ import { Op } from "sequelize";
 import model from '../models/index.js';
 import { sendSuccessResponse, sendErrorResponse } from '../utils/sendResponse.js';
 
+let { MOVIE_API_KEY } = process.env;
+
 export default {
     async index(req, res) {
         try {
@@ -38,7 +40,7 @@ export default {
         }
 
         try {
-            const item = (await axios.get(`https://www.omdbapi.com/?t=${title}&apikey=bfff2205`))?.data
+            const item = (await axios.get(`https://www.omdbapi.com/?t=${title}&apikey=${MOVIE_API_KEY}`))?.data
 
             if (!item) {
                 return sendErrorResponse(res, 404, 'Movie not found!');
